@@ -1,6 +1,6 @@
 const mysql = require('../mysql');
 
-exports.getProdutos = async (req, res, next) => {
+exports.getProducts = async (req, res, next) => {
     try {
         let descricao = '';
         if (req.query.descricao) {
@@ -57,13 +57,13 @@ exports.postProduct = async (req, res, next) => {
             message: 'Produto inserido com sucesso',
             createdProduct: {
                 id: result.insertId,
-                req.body.id_grupo,
-                req.body.id_marca,
-                req.body.id_locacao,
-                req.body.status,
-                req.body.descricao,
-                req.body.estoque_min,
-                req.body.estoque_max,
+                id_grupo:req.body.id_grupo,
+                id_marca:req.body.id_marca,
+                id_locacao:req.body.id_locacao,
+                status:req.body.status,
+                descricao:req.body.descricao,
+                estoque_min:req.body.estoque_min,
+                estoque_max:req.body.estoque_max,
                
                 request: {
                     type: 'GET',
@@ -80,8 +80,8 @@ exports.postProduct = async (req, res, next) => {
 
 exports.getProductDetail = async (req, res, next)=> {
     try {
-        const query = 'SELECT * FROM produtos WHERE productId = ?;';
-        const result = await mysql.execute(query, [req.params.productId]);
+        const query = 'SELECT * FROM produtos WHERE id = ?;';
+        const result = await mysql.execute(query, [req.params.id]);
 
         if (result.length == 0) {
             return res.status(404).send({
@@ -90,10 +90,14 @@ exports.getProductDetail = async (req, res, next)=> {
         }
         const response = {
             product: {
-                productId: result[0].productId,
+                id: result[0].id,
+                id_grupo: result[0].id_grupo,
+                id_marca: result[0].id_marca,
+                id_locacao: result[0].id_locacao,
+                status: result[0].status,
                 descricao: result[0].descricao,
-                price: result[0].price,
-                productImage: result[0].productImage,
+                estoque_min: result[0].estoque_min,
+                estoque_max: result[0].estoque_max,
                 request: {
                     type: 'GET',
                     description: 'Retorna todos os produtos',
@@ -111,20 +115,35 @@ exports.updateProduct = async (req, res, next) => {
 
     try {
         const query = ` UPDATE produtos
-                           SET descricao         = ?,
-                               price        = ?
-                         WHERE productId    = ?`;
+                           SET id_grupo     = ?,
+                               id_marca     = ?,
+                               id_locacao   = ?,
+                               status       = ?,
+                               descricao    = ?,
+                               estoque_min  = ?,
+                               estoque_max  = ? 
+                            WHERE id        = ?`;
         await mysql.execute(query, [
+            req.body.id_grupo,
+            req.body.id_marca,
+            req.body.id_locacao,
+            req.body.status,
             req.body.descricao,
-            req.body.price,
-            req.params.productId
+            req.body.estoque_min,
+            req.body.estoque_max,
+            req.params.id
         ]);
         const response = {
             message: 'Produto atualizado com sucesso',
             upatedProduct: {
-                productId: req.params.productId,
-                descricao: req.body.descricao,
-                price: req.body.price,
+                id: req.params.id,
+                id_grupo:req.body.id_grupo,
+                id_marca:req.body.id_marca,
+                id_locacao:req.body.id_locacao,
+                status:req.body.status,
+                descricao:req.body.descricao,
+                estoque_min:req.body.estoque_min,
+                estoque_max:req.body.estoque_max,
                 request: {
                     type: 'GET',
                     description: 'Retorna os detalhes de um produto específico',
@@ -140,8 +159,8 @@ exports.updateProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
     try {
-        const query = `DELETE FROM produtos WHERE productId = ?`;
-        await mysql.execute(query, [req.params.productId]);
+        const query = `DELETE FROM produtos WHERE id = ?`;
+        await mysql.execute(query, [req.params.id]);
 
         const response = {
             message: 'Produto removido com sucesso',
@@ -150,8 +169,13 @@ exports.deleteProduct = async (req, res, next) => {
                 description: 'Insere um produto',
                 url: process.env.URL_API + 'produtos',
                 body: {
+                    id_grupo: 'Number',
+                    id_marca: 'Number',
+                    id_locacao:'Number',
+                    status: 'String',
                     descricao: 'String',
-                    price: 'Number'
+                    estoque_min: 'Number',
+                    estoque_max: 'Number',
                 }
             }
         }
@@ -162,7 +186,7 @@ exports.deleteProduct = async (req, res, next) => {
     }
 };
 
-exports.postImage = async (req, res, next) => {
+/* exports.postImage = async (req, res, next) => {
     try {
         const query = 'INSERT INTO productImages (productId, path) VALUES (?,?)';
         const result = await mysql.execute(query, [
@@ -207,4 +231,4 @@ exports.getImages = async (req, res, next) => {
     } catch (error) {
         return res.status(500).send({ error: error });
     }
-};
+}; */
