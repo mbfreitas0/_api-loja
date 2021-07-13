@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 exports.createUser = async (req, res, next) => {
 
     try {
-        var query = `SELECT * FROM users WHERE email = ?`;
+        var query = `SELECT * FROM usuarios WHERE email = ?`;
         var result = await mysql.execute(query, [req.body.email]);
 
         if (result.length > 0) {
@@ -14,13 +14,13 @@ exports.createUser = async (req, res, next) => {
 
         const hash = await bcrypt.hashSync(req.body.password, 10);
 
-        query = 'INSERT INTO users (email, password) VALUES (?,?)';
+        query = 'INSERT INTO usuarios (email, password) VALUES (?,?)';
         const results = await mysql.execute(query, [req.body.email,hash]);
 
         const response = {
             message: 'Usuário criado com sucesso',
             createdUser: {
-                userId: results.insertId,
+                id_usuario: results.insertId,
                 email: req.body.email
             }
         }
@@ -34,7 +34,7 @@ exports.createUser = async (req, res, next) => {
 exports.Login = async (req, res, next) => {
 
     try {
-        const query = `SELECT * FROM users WHERE email = ?`;
+        const query = `SELECT * FROM usuarios WHERE email = ?`;
         var results = await mysql.execute(query, [req.body.email]);
 
         if (results.length < 1) {
@@ -43,12 +43,12 @@ exports.Login = async (req, res, next) => {
 
         if (await bcrypt.compareSync(req.body.password, results[0].password)) {
             const token = jwt.sign({
-                userId: results[0].userId,
+                id_usuario: results[0].id_usuario,
                 email: results[0].email
             },
             process.env.JWT_KEY,
             {
-                expiresIn: "1h"
+                expiresIn: "24h"
             });
             return res.status(200).send({
                 message: 'Autenticado com sucesso',

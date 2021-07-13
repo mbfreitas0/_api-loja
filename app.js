@@ -1,4 +1,5 @@
 const express = require('express');
+var cors = require('cors');
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -9,12 +10,12 @@ const orderRoute = require('./routes/order-route');
 const userRoute = require('./routes/user-route');
 const imageRoute  = require('./routes/image-route');
 
-app.use(morgan('dev'));
-app.use('/uploads', express.static('uploads'));
-app.use(bodyParser.urlencoded({ extended: false }));  // apenas dados simples
-app.use(bodyParser.json()); // json de entrada no body
+//app.use(morgan('dev'));
+//app.use('/uploads', express.static('uploads'));
+/* app.use(bodyParser.urlencoded({ extended: true }));  // apenas dados simples
+app.use(bodyParser.json()); // json de entrada no body */
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Header',
@@ -26,13 +27,20 @@ app.use((req, res, next) => {
         return res.status(200).send({});
     }
     next();
-});
+}); */
+app.use(cors());
+app.listen(3000, () => {
+    console.log('CORS-enabled web server listening on port 3000')
+  })
+
+ 
 
 app.use('/products', productRoute);
 app.use('/categories', categoryRoute);
 app.use('/orders', orderRoute);
 app.use('/users', userRoute);
 app.use('/images', imageRoute);
+
 
 app.use((req, res, next) => {
     const erro = new Error('Não encontrado');
