@@ -4,6 +4,8 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
+
+
 const productRoute = require('./routes/product-route');
 const categoryRoute = require('./routes/category-route');
 const orderRoute = require('./routes/order-route');
@@ -12,10 +14,12 @@ const imageRoute  = require('./routes/image-route');
 
 //app.use(morgan('dev'));
 //app.use('/uploads', express.static('uploads'));
-/* app.use(bodyParser.urlencoded({ extended: true }));  // apenas dados simples
-app.use(bodyParser.json()); // json de entrada no body */
+app.use(express.urlencoded({ extended: true }));  // apenas dados simples
+app.use(express.json()); // json de entrada no body */
 
-/* app.use((req, res, next) => {
+app.use(cors());
+
+app.use( (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header(
         'Access-Control-Allow-Header',
@@ -27,10 +31,10 @@ app.use(bodyParser.json()); // json de entrada no body */
         return res.status(200).send({});
     }
     next();
-}); */
-app.use(cors());
-app.listen(3000, () => {
-    console.log('CORS-enabled web server listening on port 3000')
+}); 
+
+app.listen(3009, () => {
+    console.log('CORS-enabled web server listening on port 3009')
   })
 
  
@@ -39,7 +43,7 @@ app.use('/products', productRoute);
 app.use('/categories', categoryRoute);
 app.use('/orders', orderRoute);
 app.use('/users', userRoute);
-app.use('/images', imageRoute);
+//app.use('/images', imageRoute);
 
 
 app.use((req, res, next) => {
