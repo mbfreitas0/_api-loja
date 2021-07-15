@@ -18,7 +18,7 @@ exports.getProducts = async (req, res, next) => {
                 return {
                     id: prod.id,
                     id_grupo: prod.id_grupo,
-                    id_marca: prod.id_marca.id_marca,
+                    id_marca: prod.id_marca,
                     id_locacao: prod.id_locacao,
                     status: prod.status,
                     descricao: prod.descricao,
@@ -147,7 +147,7 @@ exports.updateProduct = async (req, res, next) => {
                 request: {
                     type: 'GET',
                     description: 'Retorna os detalhes de um produto específico',
-                    url: process.env.URL_API + 'produtos/' + req.params.productId
+                    url: process.env.URL_API + 'products/' + req.params.id
                 }
             }
         }
