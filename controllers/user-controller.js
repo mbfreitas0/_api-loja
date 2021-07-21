@@ -1,6 +1,6 @@
 const mysql = require('../mysql');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+//const jwt = require('jsonwebtoken');
 
 exports.createUser = async (req, res, next) => {
 
@@ -42,17 +42,17 @@ exports.Login = async (req, res, next) => {
         }
 
         if (await bcrypt.compareSync(req.body.senha, results[0].senha)) {
-            const token = jwt.sign({
-                id_usuario: results[0].id_usuario,
+            // const token = jwt.sign({
+                id_usuario: results[0].id_usuario;
                 email: results[0].email
-            },
+            /* },
             process.env.JWT_KEY,
             {
                 expiresIn: "24h"
-            });
+            }); */
             return res.status(200).send({
                 message: 'Autenticado com sucesso',
-                token: token
+                //token: token
             });
         }
         return res.status(401).send({ message: 'Falha na autenticação' })

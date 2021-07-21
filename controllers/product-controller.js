@@ -10,7 +10,7 @@ exports.getProducts = async (req, res, next) => {
         const query = `
             SELECT * FROM produtos`;
         const result = await mysql.execute(query, [
-            req.query.categoryId
+            req.query.id
         ])
         const response = {
             length: result.length,
