@@ -1,7 +1,9 @@
 const mysql = require('../mysql');
 
 exports.getProducts = async (req, res, next) => {
-    try {
+    const response = await mysql.execute('SELECT * FROM products ORDER BY descricao ASC');
+    res.status(200).send(response.rows);
+   /*  try {
         let descricao = '';
         if (req.query.descricao) {
             descricao = req.query.descricao;    
@@ -36,11 +38,35 @@ exports.getProducts = async (req, res, next) => {
         return res.status(200).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    }
+    } */
 };
 
 exports.postProduct = async (req, res, next) => {
-    try {
+    const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
+    const {rows} = await mysql.execute(`INSERT INTO products (
+        id_grupo, 
+        id_marca, 
+        id_locacao, 
+        status, 
+        descricao, 
+        estoque_min, 
+        estoque_max) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[
+            id_grupo, 
+            id_marca, 
+            id_locacao, 
+            status, 
+            descricao, 
+            estoque_min, 
+            estoque_max]);
+            res.status(200).send({
+                message: "Product added successfully !!!",
+                body:{ 
+                    product: {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max}
+                },
+            });
+        };
+
+   /*  try {
         const query = 'INSERT INTO produtos ( id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max ) VALUES (?,?,?,?,?,?,?)';
         const result = await mysql.execute(query, [
             req.body.id_grupo,
@@ -75,11 +101,14 @@ exports.postProduct = async (req, res, next) => {
         return res.status(201).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    }
-};
+    } */
+//};
 
 exports.getProductDetail = async (req, res, next)=> {
-    try {
+    const id = parseInt(req.params.id);
+    const response = await mysql.execute('SELECT * FROM products WHERE id = $1', [id]);
+    res.status(200).send(response.rows);
+   /*  try {
         const query = 'SELECT * FROM produtos WHERE id = ?;';
         const result = await mysql.execute(query, [req.params.id]);
 
@@ -108,12 +137,23 @@ exports.getProductDetail = async (req, res, next)=> {
         return res.status(200).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    }
+    } */
 };
 
 exports.updateProduct = async (req, res, next) => {
+    const id = parseInt(req.params.id);
+    const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
+    const response = await mysql.execute(`UPDATE products SET 
+    id_grupo = $1, 
+    id_marca = $2, 
+    id_locacao = $3, 
+    status = $4, 
+    descricao = $5, 
+    estoque_min = $6, 
+    estoque_max = $7`,[id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max, id] );
+    res.status(200).send({message: "Product updated successfully !"});
 
-    try {
+    /* try {
         const query = ` UPDATE produtos
                            SET id_grupo     = ?,
                                id_marca     = ?,
@@ -154,11 +194,15 @@ exports.updateProduct = async (req, res, next) => {
         return res.status(202).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    }
+    } */
 };
 
 exports.deleteProduct = async (req, res, next) => {
-    try {
+    const id = parseInt(req.params.id);
+    await mysql.execute('DELETE FROM products WHERE id = $1', [id]);
+    res.status(200).send({message:'Product deleted successfully !  ', id});
+
+    /* try {
         const query = `DELETE FROM produtos WHERE id = ?`;
         await mysql.execute(query, [req.params.id]);
 
@@ -183,7 +227,7 @@ exports.deleteProduct = async (req, res, next) => {
 
     } catch (error) {
         return res.status(500).send({ error: error });
-    }
+    } */
 };
 
 /* exports.postImage = async (req, res, next) => {

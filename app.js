@@ -33,8 +33,8 @@ app.use( (req, res, next) => {
     next();
 }); 
 
-app.listen(3009, () => {
-    console.log('CORS-enabled web server listening on port 3009')
+app.listen(3000, () => {
+    console.log('CORS-enabled web server listening on port 3000')
   })
 
  

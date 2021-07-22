@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 //const multer = require('multer');
-const login = require('../middleware/login');
+//const login = require('../middleware/login');
 
 const ProductsController = require('../controllers/product-controller');
 
@@ -39,8 +39,8 @@ router.get('/', ProductsController.getProducts);
     ProductsController.postProduct
 ); */
 router.get('/:id', ProductsController.getProductDetail);
-router.patch('/:id', login.required, ProductsController.updateProduct);
-router.delete('/:id', login.required, ProductsController.deleteProduct);
+router.patch('/:id', ProductsController.updateProduct);
+router.delete('/:id',ProductsController.deleteProduct);
 
 /* // imagens
 router.post(
