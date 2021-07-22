@@ -1,7 +1,7 @@
 const mysql = require('../mysql');
 
 exports.getProducts = async (req, res, next) => {
-    const response = await mysql.query('SELECT * FROM products ORDER BY descricao ASC');
+    const response = await mysql.execute('SELECT * FROM produtos ORDER BY descricao ASC');
     res.status(200).send(response.rows);
    /*  try {
         let descricao = '';
@@ -43,7 +43,7 @@ exports.getProducts = async (req, res, next) => {
 
 exports.postProduct = async (req, res, next) => {
     const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
-    const {rows} = await mysql.query(`INSERT INTO products (
+    const {rows} = await mysql.execute(`INSERT INTO produtos (
         id_grupo, 
         id_marca, 
         id_locacao, 
@@ -106,7 +106,7 @@ exports.postProduct = async (req, res, next) => {
 
 exports.getProductDetail = async (req, res, next)=> {
     const id = parseInt(req.params.id);
-    const response = await mysql.query('SELECT * FROM products WHERE id = $1', [id]);
+    const response = await mysql.execute('SELECT * FROM produtos WHERE id = $1', [id]);
     res.status(200).send(response.rows);
    /*  try {
         const query = 'SELECT * FROM produtos WHERE id = ?;';
@@ -143,7 +143,7 @@ exports.getProductDetail = async (req, res, next)=> {
 exports.updateProduct = async (req, res, next) => {
     const id = parseInt(req.params.id);
     const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
-    const response = await mysql.query(`UPDATE products SET 
+    const response = await mysql.execute(`UPDATE produtos SET 
     id_grupo = $1, 
     id_marca = $2, 
     id_locacao = $3, 
@@ -199,7 +199,7 @@ exports.updateProduct = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
     const id = parseInt(req.params.id);
-    await mysql.query('DELETE FROM products WHERE id = $1', [id]);
+    await mysql.execute('DELETE FROM produtos WHERE id = $1', [id]);
     res.status(200).send({message:'Product deleted successfully !  ', id});
 
     /* try {
