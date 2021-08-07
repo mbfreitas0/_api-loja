@@ -11,9 +11,9 @@
                 
                     return {
                     id: prod.id,
-                    id_grupo: prod.id_grupo,
-                    id_marca: prod.id_marca,
-                    id_locacao: prod.id_locacao,
+                    //id_grupo: prod.id_grupo,
+                    //id_marca: prod.id_marca,
+                    //id_locacao: prod.id_locacao,
                     status: prod.status,
                     descricao: prod.descricao,
                     estoque_min: prod.estoque_min,
@@ -54,11 +54,11 @@ exports.postProduct = async (req, res, next) => {
         };
  */
     try {
-        const query = 'INSERT INTO produtos ( id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max ) VALUES (?,?,?,?,?,?,?)';
+        const query = 'INSERT INTO produtos ( status, descricao, estoque_min, estoque_max ) VALUES (?,?,?,?)';
         const result = await mysql.execute(query, [
-            req.body.id_grupo,
-            req.body.id_marca,
-            req.body.id_locacao,
+            //req.body.id_grupo,
+            //req.body.id_marca,
+            //req.body.id_locacao,
             req.body.status,
             req.body.descricao,
             req.body.estoque_min,
@@ -70,19 +70,14 @@ exports.postProduct = async (req, res, next) => {
             message: 'Produto inserido com sucesso',
             createdProduct: {
                 id: result.insertId,
-                id_grupo:req.body.id_grupo,
-                id_marca:req.body.id_marca,
-                id_locacao:req.body.id_locacao,
+                //id_grupo:req.body.id_grupo,
+                //id_marca:req.body.id_marca,
+                //id_locacao:req.body.id_locacao,
                 status:req.body.status,
                 descricao:req.body.descricao,
                 estoque_min:req.body.estoque_min,
                 estoque_max:req.body.estoque_max,
-               
-                request: {
-                    type: 'GET',
-                    description: 'Retorna todos os produtos',
-                    url: process.env.URL_API + 'produtos'
-                }
+                              
             }
         }
         return res.status(201).send(response);
@@ -107,18 +102,13 @@ exports.getProductDetail = async (req, res, next)=> {
         const response = {
             product: {
                 id: result[0].id,
-                id_grupo: result[0].id_grupo,
-                id_marca: result[0].id_marca,
-                id_locacao: result[0].id_locacao,
+                //id_grupo: result[0].id_grupo,
+                //id_marca: result[0].id_marca,
+                //id_locacao: result[0].id_locacao,
                 status: result[0].status,
                 descricao: result[0].descricao,
                 estoque_min: result[0].estoque_min,
                 estoque_max: result[0].estoque_max,
-                request: {
-                    type: 'GET',
-                    description: 'Retorna todos os produtos',
-                    url: process.env.URL_API + 'produtos'
-                }
             }
         }
         return res.status(200).send(response);
@@ -142,18 +132,15 @@ exports.updateProduct = async (req, res, next) => {
 
     try {
         const query = ` UPDATE produtos
-                           SET id_grupo     = ?,
-                               id_marca     = ?,
-                               id_locacao   = ?,
-                               status       = ?,
+                           SET status       = ?,
                                descricao    = ?,
                                estoque_min  = ?,
                                estoque_max  = ? 
                             WHERE id        = ?`;
         await mysql.execute(query, [
-            req.body.id_grupo,
-            req.body.id_marca,
-            req.body.id_locacao,
+            //req.body.id_grupo,
+            //req.body.id_marca,
+            //req.body.id_locacao,
             req.body.status,
             req.body.descricao,
             req.body.estoque_min,
@@ -164,18 +151,14 @@ exports.updateProduct = async (req, res, next) => {
             message: 'Produto atualizado com sucesso',
             upatedProduct: {
                 id: req.params.id,
-                id_grupo:req.body.id_grupo,
-                id_marca:req.body.id_marca,
-                id_locacao:req.body.id_locacao,
+                //id_grupo:req.body.id_grupo,
+                //id_marca:req.body.id_marca,
+                //id_locacao:req.body.id_locacao,
                 status:req.body.status,
                 descricao:req.body.descricao,
                 estoque_min:req.body.estoque_min,
                 estoque_max:req.body.estoque_max,
-                request: {
-                    type: 'GET',
-                    description: 'Retorna os detalhes de um produto específico',
-                    url: process.env.URL_API + 'products/' + req.params.id
-                }
+                
             }
         }
         return res.status(202).send(response);
@@ -196,13 +179,11 @@ exports.deleteProduct = async (req, res, next) => {
         const response = {
             message: 'Produto removido com sucesso',
             request: {
-                type: 'POST',
-                description: 'Insere um produto',
-                url: process.env.URL_API + 'produtos',
+                
                 body: {
-                    id_grupo: 'Number',
-                    id_marca: 'Number',
-                    id_locacao:'Number',
+                    //id_grupo: 'Number',
+                    //id_marca: 'Number',
+                    //id_locacao:'Number',
                     status: 'String',
                     descricao: 'String',
                     estoque_min: 'Number',
