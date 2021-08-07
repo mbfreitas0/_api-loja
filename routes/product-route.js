@@ -39,6 +39,7 @@ router.get('/', ProductsController.getProducts);
     ProductsController.postProduct
 ); */
 router.get('/:id', ProductsController.getProductDetail);
+router.post('/', ProductsController.postProduct);
 router.patch('/:id', ProductsController.updateProduct);
 router.delete('/:id',ProductsController.deleteProduct);
 

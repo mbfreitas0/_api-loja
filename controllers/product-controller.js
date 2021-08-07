@@ -1,23 +1,15 @@
-const mysql = require('../mysql');
+    const mysql = require('../mysql');
 
-exports.getProducts = async (req, res, next) => {
-    const response = await mysql.execute('SELECT * FROM produtos ORDER BY descricao ASC');
-    res.status(200).send(response.rows);
-   /*  try {
-        let descricao = '';
-        if (req.query.descricao) {
-            descricao = req.query.descricao;    
-        }
-    
-        const query = `
-            SELECT * FROM produtos`;
+ exports.getProducts = async (req, res, next) => {
+     const query = `SELECT * FROM produtos`;
         const result = await mysql.execute(query, [
             req.query.id
         ])
         const response = {
             length: result.length,
             produtos: result.map(prod => {
-                return {
+                
+                    return {
                     id: prod.id,
                     id_grupo: prod.id_grupo,
                     id_marca: prod.id_marca,
@@ -27,22 +19,17 @@ exports.getProducts = async (req, res, next) => {
                     estoque_min: prod.estoque_min,
                     estoque_max: prod.estoque_max,
                     
-                    request: {
-                        type: 'GET',
-                        description: 'Retorna os detalhes de um produto específico',
-                        url: process.env.URL_API + 'produtos/' + prod.id
-                    }
                 }
             })
         }
-        return res.status(200).send(response);
-    } catch (error) {
-        return res.status(500).send({ error: error });
-    } */
-};
-
+       
+        return  res.status(200).send(response);
+                
+       
+    };
+   
 exports.postProduct = async (req, res, next) => {
-    const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
+    /* const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
     const {rows} = await mysql.execute(`INSERT INTO produtos (
         id_grupo, 
         id_marca, 
@@ -65,8 +52,8 @@ exports.postProduct = async (req, res, next) => {
                 },
             });
         };
-
-   /*  try {
+ */
+    try {
         const query = 'INSERT INTO produtos ( id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max ) VALUES (?,?,?,?,?,?,?)';
         const result = await mysql.execute(query, [
             req.body.id_grupo,
@@ -101,15 +88,15 @@ exports.postProduct = async (req, res, next) => {
         return res.status(201).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    } */
-//};
+    }
+};
 
 exports.getProductDetail = async (req, res, next)=> {
-    const id = parseInt(req.params.id);
+   /*  const id = parseInt(req.params.id);
     const response = await mysql.execute('SELECT * FROM produtos WHERE id = $1', [id]);
-    res.status(200).send(response.rows);
-   /*  try {
-        const query = 'SELECT * FROM produtos WHERE id = ?;';
+    res.status(200).send(response.rows); */
+    try {
+        const query = 'SELECT * FROM produtos WHERE id = ?';
         const result = await mysql.execute(query, [req.params.id]);
 
         if (result.length == 0) {
@@ -137,11 +124,11 @@ exports.getProductDetail = async (req, res, next)=> {
         return res.status(200).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    } */
+    }
 };
 
 exports.updateProduct = async (req, res, next) => {
-    const id = parseInt(req.params.id);
+    /* const id = parseInt(req.params.id);
     const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
     const response = await mysql.execute(`UPDATE produtos SET 
     id_grupo = $1, 
@@ -151,9 +138,9 @@ exports.updateProduct = async (req, res, next) => {
     descricao = $5, 
     estoque_min = $6, 
     estoque_max = $7`,[id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max, id] );
-    res.status(200).send({message: "Product updated successfully !"});
+    res.status(200).send({message: "Product updated successfully !"}); */
 
-    /* try {
+    try {
         const query = ` UPDATE produtos
                            SET id_grupo     = ?,
                                id_marca     = ?,
@@ -194,15 +181,15 @@ exports.updateProduct = async (req, res, next) => {
         return res.status(202).send(response);
     } catch (error) {
         return res.status(500).send({ error: error });
-    } */
+    }
 };
 
 exports.deleteProduct = async (req, res, next) => {
-    const id = parseInt(req.params.id);
+   /*  const id = parseInt(req.params.id);
     await mysql.execute('DELETE FROM produtos WHERE id = $1', [id]);
-    res.status(200).send({message:'Product deleted successfully !  ', id});
+    res.status(200).send({message:'Product deleted successfully !  ', id}); */
 
-    /* try {
+    try {
         const query = `DELETE FROM produtos WHERE id = ?`;
         await mysql.execute(query, [req.params.id]);
 
@@ -227,7 +214,7 @@ exports.deleteProduct = async (req, res, next) => {
 
     } catch (error) {
         return res.status(500).send({ error: error });
-    } */
+    }
 };
 
 /* exports.postImage = async (req, res, next) => {

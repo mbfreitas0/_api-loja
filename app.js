@@ -4,8 +4,6 @@ const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
-
-
 const productRoute = require('./routes/product-route');
 const categoryRoute = require('./routes/category-route');
 const orderRoute = require('./routes/order-route');
@@ -40,8 +38,8 @@ app.listen(3001, () => {
  
 
 app.use('/products', productRoute);
-app.use('/categories', categoryRoute);
-app.use('/orders', orderRoute);
+//app.use('/categories', categoryRoute);
+//app.use('/orders', orderRoute);
 app.use('/users', userRoute);
 //app.use('/images', imageRoute);
 
