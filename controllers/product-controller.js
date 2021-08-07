@@ -29,30 +29,7 @@
     };
    
 exports.postProduct = async (req, res, next) => {
-    /* const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
-    const {rows} = await mysql.execute(`INSERT INTO produtos (
-        id_grupo, 
-        id_marca, 
-        id_locacao, 
-        status, 
-        descricao, 
-        estoque_min, 
-        estoque_max) VALUES ($1,$2,$3,$4,$5,$6,$7)`,[
-            id_grupo, 
-            id_marca, 
-            id_locacao, 
-            status, 
-            descricao, 
-            estoque_min, 
-            estoque_max]);
-            res.status(200).send({
-                message: "Product added successfully !!!",
-                body:{ 
-                    product: {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max}
-                },
-            });
-        };
- */
+    
     try {
         const query = 'INSERT INTO produtos ( status, descricao, estoque_min, estoque_max ) VALUES (?,?,?,?)';
         const result = await mysql.execute(query, [
@@ -118,18 +95,7 @@ exports.getProductDetail = async (req, res, next)=> {
 };
 
 exports.updateProduct = async (req, res, next) => {
-    /* const id = parseInt(req.params.id);
-    const {id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max} = req.body;
-    const response = await mysql.execute(`UPDATE produtos SET 
-    id_grupo = $1, 
-    id_marca = $2, 
-    id_locacao = $3, 
-    status = $4, 
-    descricao = $5, 
-    estoque_min = $6, 
-    estoque_max = $7`,[id_grupo, id_marca, id_locacao, status, descricao, estoque_min, estoque_max, id] );
-    res.status(200).send({message: "Product updated successfully !"}); */
-
+   
     try {
         const query = ` UPDATE produtos
                            SET status       = ?,

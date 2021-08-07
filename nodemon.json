@@ -1,11 +1,9 @@
 {
     "env": {
-        "MYSQL_USER":"admin",
-        "MYSQL_PASSWORD":"mbf190377",
-        "MYSQL_DATABASE":"store",
-        "MYSQL_HOST":"localhost",
-        "MYSQL_PORT":3306,
-
-        "JWT_KEY" : "mysecret"
+        "MYSQL_USER": "admin",
+        "MYSQL_PASSWORD": "mbf190377",
+        "MYSQL_DATABASE": "store",
+        "MYSQL_HOST": "localhost",
+        "MYSQL_PORT": 3306
     }
 }
